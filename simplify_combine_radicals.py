@@ -100,7 +100,10 @@ def simplify_radical_numeral_part(radical):
     flattened_like_factors = [item for sublist in like_factors for item  in sublist]
     new_radicand = 0
     if(len(like_factors) == 1):
-      new_radicand = flattened_like_factors[0]
+      if(flattened_like_factors == p_factors):
+        new_radicand = flattened_like_factors[0]
+      else:
+        new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
     else:
       new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
     prime_radical_factors = list(set(flattened_like_factors))
@@ -141,10 +144,15 @@ def main():
   print(f'literal radicals are: ', get_literal_radicals(radicals))
   print(f'numeral and literal radicals are: ', get_numeral_literal_radicals(radicals))
   #print('prime numbers from 2 to {upper_bound} are: {primes}'.format(upper_bound=100, primes=get_primes(100)))
-  print(prime_factors(252))
+  #print(prime_factors(252))
+  print(simplify_radical([4, 3, 2]))
   print(simplify_radical([1, 252, 2]))
   print(simplify_radical([1, 75, 2]))
   print(simplify_radical([1, 'x', 2]))
   print(simplify_radical([1, '9x', 2]))
+  print(simplify_radical([1, 18, 2]))
+  print(simplify_radical([-1, 28, 2]))
+  print(simplify_radical([-1, 63, 2]))
+  print(simplify_radical([4, 7, 2]))
 
 main()
