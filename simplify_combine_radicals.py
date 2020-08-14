@@ -110,7 +110,7 @@ def simplify_radical_numeral_part(radical):
     prime_radical_factors = list(set(flattened_like_factors))
     product_prime_radical_factors = reduce(lambda x, y: x * y, prime_radical_factors)
     new_radical_factor = radical[0] * product_prime_radical_factors
-    if(isinstance(new_radicand, list)):
+    if(isinstance(new_radicand, list) and new_radicand):
       return [new_radical_factor, new_radicand[0], radical[2]]
     else: 
       return [new_radical_factor, new_radicand, radical[2]]
@@ -129,30 +129,26 @@ def simplify_radical(radical):
     numeral_part_int = int(numeral_part_str, 10)
     temp_radical = [radical[0], numeral_part_int, radical[2]]
     simplified_temp_radical = simplify_radical_numeral_part(temp_radical)
-    simplified_radicand = str(simplified_temp_radical[1]) + radical[1][-1]
+    if(simplified_temp_radical[1]):
+      simplified_radicand = str(simplified_temp_radical[1]) + radical[1][-1]
+    else:
+      simplified_radicand = radical[1][-1]
     simplified_temp_radical[1] = simplified_radicand
     return simplified_temp_radical
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
   #radicals = [[1, 75, 2], [4, 3, 2], [1, 18, 2]]
-  radicals = [[4, 3, 2], [7, 'x', 2], [2, '9y', 2], [1, 75, 2], [3, '100a', 2], 
-              [5, '3b', 2], [1, 2, 2], [3, 'a', 2]]
-  print(f'radicals are: ', radicals)
-  print(f'prime radicals are: ', get_prime_radicals(radicals))
-  print(f'numeral radicals are: ', get_numeral_radicals(radicals))
-  print(f'literal radicals are: ', get_literal_radicals(radicals))
-  print(f'numeral and literal radicals are: ', get_numeral_literal_radicals(radicals))
-  #print('prime numbers from 2 to {upper_bound} are: {primes}'.format(upper_bound=100, primes=get_primes(100)))
-  #print(prime_factors(252))
-  print(simplify_radical([4, 3, 2]))
-  print(simplify_radical([1, 252, 2]))
-  print(simplify_radical([1, 75, 2]))
-  print(simplify_radical([1, 'x', 2]))
-  print(simplify_radical([1, '9x', 2]))
-  print(simplify_radical([1, 18, 2]))
-  print(simplify_radical([-1, 28, 2]))
-  print(simplify_radical([-1, 63, 2]))
-  print(simplify_radical([4, 7, 2]))
+  #radicals = [[4, 3, 2], [7, 'x', 2], [2, '9y', 2], [1, 75, 2], [3, '100a', 2], 
+  #            [5, '3b', 2], [1, 2, 2], [3, 'a', 2]]
+  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '100a', 2]]
+  print('radicals are: ', radicals)
+  print('prime radicals are: ', get_prime_radicals(radicals))
+  print('numeral radicals are: ', get_numeral_radicals(radicals))
+  print('literal radicals are: ', get_literal_radicals(radicals))
+  print('numeral and literal radicals are: ', get_numeral_literal_radicals(radicals))
+  #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '100a', 2]]
+  simplified_radicals = list(map(simplify_radical, radicals))
+  print(simplified_radicals)
 
 main()
