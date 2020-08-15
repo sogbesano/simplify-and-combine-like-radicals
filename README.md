@@ -1,5 +1,6 @@
 # simplify_and_combine_like_radicals
 Python program that simplifies and combine like radicals.
+Program uses Prime Factorization to simplify radicals.
 
 A radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index.
 For example, the radical 4 * sqrt(3) would be represented by the list [4, 3, 2],
