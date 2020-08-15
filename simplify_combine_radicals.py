@@ -102,11 +102,42 @@ def simplify_radical_numeral_part(radical):
     if(len(like_factors) == 1):
       if(flattened_like_factors == p_factors):
         new_radicand = flattened_like_factors[0]
-      else:
+      else:  
         new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
     else:
-      new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
-    prime_radical_factors = list(set(flattened_like_factors))
+      difference_factors = []
+      removed_dupes = []
+      i = 0
+      for like_factor in like_factors:
+        removed_dupes = list(remove_n_dupes(p_factors, like_factor[i], len(like_factors)))
+        difference_factors.append(removed_dupes)
+        i += 1
+      diff = []
+      k = 0
+      for i in difference_factors:
+        a = list(filter(lambda x: x == list(set(flattened_like_factors))[k], i))
+        diff.append(a)
+        k += 1
+      flattened_diff = [item for sublist in diff for item  in sublist]
+      prime_radical_factors = list(set(flattened_like_factors))
+        
+      j = 0
+      arr = []
+      for i in prime_radical_factors:
+        b = list(remove_n_dupes(p_factors, i, len(diff[j]) / len(like_factors)))
+        arr.append(b)
+        j += 1
+      diff = []
+      k = 0
+      for i in arr:
+        a = list(filter(lambda x: x == list(set(flattened_like_factors))[k], i))
+        diff.append(a)
+        k += 1
+      flattened_diff = [item for sublist in diff for item  in sublist]
+      if(flattened_like_factors not in p_factors):
+        new_radicand = reduce(lambda x, y: x * y, flattened_diff)
+      else:
+        new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
     prime_radical_factors = list(set(flattened_like_factors))
     product_prime_radical_factors = reduce(lambda x, y: x * y, prime_radical_factors)
     new_radical_factor = radical[0] * product_prime_radical_factors
@@ -136,12 +167,26 @@ def simplify_radical(radical):
     simplified_temp_radical[1] = simplified_radicand
     return simplified_temp_radical
 
+#yields generator after removing 'how_many' duplicates of 'what' from 'remove_from' 
+def remove_n_dupes(remove_from, what, how_many):
+    count = 0
+    for item in remove_from:
+        if item == what and count < how_many:
+            count += 1
+        else:
+            yield item
+
+#returns a list of all indexes of the radicals
+def get_all_indexes(radicals):
+  return True
+
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
   #radicals = [[1, 75, 2], [4, 3, 2], [1, 18, 2]]
   #radicals = [[4, 3, 2], [7, 'x', 2], [2, '9y', 2], [1, 75, 2], [3, '100a', 2], 
   #            [5, '3b', 2], [1, 2, 2], [3, 'a', 2]]
-  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '100a', 2]]
+  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2]]
+  #radicals = [[3, '1_000_000a', 2]]
   print('radicals are: ', radicals)
   print('prime radicals are: ', get_prime_radicals(radicals))
   print('numeral radicals are: ', get_numeral_radicals(radicals))
