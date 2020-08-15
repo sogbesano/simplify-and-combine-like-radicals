@@ -196,4 +196,5 @@ def main():
   simplified_radicals = list(map(simplify_radical, radicals))
   print(simplified_radicals)
 
-main()
+if __name__ == '__main__':
+  main()
