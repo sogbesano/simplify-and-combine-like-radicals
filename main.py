@@ -134,7 +134,7 @@ def simplify_radical_numeral_part(radical):
         diff.append(a)
         k += 1
       flattened_diff = [item for sublist in diff for item  in sublist]
-      if(flattened_like_factors not in p_factors):
+      if(set(p_factors).issubset(flattened_like_factors)):
         new_radicand = reduce(lambda x, y: x * y, flattened_diff)
       else:
         new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
@@ -182,19 +182,16 @@ def get_all_indexes(radicals):
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
-  #radicals = [[1, 75, 2], [4, 3, 2], [1, 18, 2]]
-  #radicals = [[4, 3, 2], [7, 'x', 2], [2, '9y', 2], [1, 75, 2], [3, '100a', 2], 
-  #            [5, '3b', 2], [1, 2, 2], [3, 'a', 2]]
-  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2]]
-  #radicals = [[3, '1_000_000a', 2]]
+  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2]]
+  #radicals = [[1, 252, 2]]
   print('radicals are: ', radicals)
-  print('prime radicals are: ', get_prime_radicals(radicals))
-  print('numeral radicals are: ', get_numeral_radicals(radicals))
-  print('literal radicals are: ', get_literal_radicals(radicals))
-  print('numeral and literal radicals are: ', get_numeral_literal_radicals(radicals))
+  #print('prime radicals are: ', get_prime_radicals(radicals))
+  #print('numeral radicals are: ', get_numeral_radicals(radicals))
+  #print('literal radicals are: ', get_literal_radicals(radicals))
+  #print('numeral and literal radicals are: ', get_numeral_literal_radicals(radicals))
   #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '100a', 2]]
   simplified_radicals = list(map(simplify_radical, radicals))
-  print(simplified_radicals)
+  print('simplified radicals are: ', simplified_radicals)
 
 if __name__ == '__main__':
   main()
