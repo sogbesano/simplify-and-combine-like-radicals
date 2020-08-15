@@ -124,7 +124,7 @@ def simplify_radical_numeral_part(radical):
       j = 0
       arr = []
       for i in prime_radical_factors:
-        b = list(remove_n_dupes(p_factors, i, len(diff[j]) / len(like_factors)))
+        b = list(remove_n_dupes(p_factors, i, len(like_factors)))
         arr.append(b)
         j += 1
       diff = []
@@ -182,8 +182,7 @@ def get_all_indexes(radicals):
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
-  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2]]
-  #radicals = [[1, 252, 2]]
+  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2], [1, 200, 2]]
   print('radicals are: ', radicals)
   #print('prime radicals are: ', get_prime_radicals(radicals))
   #print('numeral radicals are: ', get_numeral_radicals(radicals))
