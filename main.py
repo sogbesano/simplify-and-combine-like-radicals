@@ -95,8 +95,18 @@ def simplify_radical_numeral_part(radical):
   else:
     p_factors = prime_factors(radical[1])
     single_duplicates = [item for item, count in collections.Counter(p_factors).items() if count > 1]
-    all_duplicates = list(map(list, set(map(tuple, [[duplicate, prime] for duplicate in single_duplicates for prime in p_factors if duplicate == prime]))))
-    like_factors = list(filter(lambda x: len(x) == radical[2], all_duplicates))
+    #all_duplicates = list(map(list, set(map(tuple, [[duplicate, prime] for duplicate in single_duplicates for prime in p_factors if duplicate == prime]))))
+    all_duplicates = []
+    duplicate_bunch = []
+    i = 0
+    for duplicate in single_duplicates:
+      duplicate_bunch = []
+      a = list(filter(lambda x: x == duplicate, p_factors))
+      b = len(a) - radical[2]
+      c = list(remove_n_dupes(a, duplicate, b))
+      all_duplicates.append(c)
+    #like_factors = list(filter(lambda x: len(x) == radical[2], all_duplicates))
+    like_factors = all_duplicates
     flattened_like_factors = [item for sublist in like_factors for item  in sublist]
     new_radicand = 0
     if(len(like_factors) == 1):
@@ -134,10 +144,15 @@ def simplify_radical_numeral_part(radical):
         diff.append(a)
         k += 1
       flattened_diff = [item for sublist in diff for item  in sublist]
-      if(set(p_factors).issubset(flattened_like_factors)):
+      if(set(p_factors).issubset(flattened_like_factors) and flattened_diff):
         new_radicand = reduce(lambda x, y: x * y, flattened_diff)
       else:
-        new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
+        factors_diff = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
+        if(not factors_diff):
+          new_radicand = reduce(lambda x, y: x * y, prime_radical_factors)
+        else:
+          new_radicand = reduce(lambda x, y: x * y, factors_diff)
+        #new_radicand = list(set(flattened_like_factors).symmetric_difference(set(p_factors)))
     prime_radical_factors = list(set(flattened_like_factors))
     product_prime_radical_factors = reduce(lambda x, y: x * y, prime_radical_factors)
     new_radical_factor = radical[0] * product_prime_radical_factors
@@ -178,11 +193,51 @@ def remove_n_dupes(remove_from, what, how_many):
 
 #returns a list of all indexes of the radicals
 def get_all_indexes(radicals):
-  return True
+  return list(set([radical[2] for radical in radicals]))
+
+#returns a dictionary of int to list of lists, where the int is the index and the list of lists are the radicals with that index
+def get_radicals_with_index(radicals, index):
+  return {index : list(filter(lambda radical: radical[2] == index, radicals))}
+
+#returns
+def combine_like_radicals(radicals_same_index):
+  i = 0
+  j = 1
+  duplicates = []
+  final_dups = []
+  for radical1 in radicals_same_index:
+    #print('J = ', j)
+    #print('I = ', i)
+    for radical2 in radicals_same_index:
+      if(radicals_same_index[i][1] == radicals_same_index[j][1]):
+        if(radicals_same_index[i] not in duplicates and radicals_same_index[j] not in duplicates):
+          #print('RADICALS SAME INDEX[i]', radicals_same_index[i])
+          duplicates.append(radicals_same_index[i])
+          duplicates.append(radicals_same_index[j])
+          break
+        elif(radicals_same_index[i][1] == radicals_same_index[j][1]): 
+          #print('RADICALS SAME INDEX[j]', radicals_same_index[j])
+          duplicates.append(radicals_same_index[j])
+          break
+      j += 1    
+      if(j >= len(radicals_same_index)):
+        break
+    i += 1
+    j = i + 1
+    if(j >= len(radicals_same_index)):
+      break
+
+  return duplicates
+  #return [f for i,f in radicals_with_index.items() for i2,f2 in radicals_with_index.items() if f[1] == f2[1]]
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
-  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2], [1, 200, 2]]
+  #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], 
+  #            [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2], 
+   #           [1, 200, 2]]
+  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 3], [-1, 63, 3], [4, 7, 3], [3, '100a', 2], [1, 252, 4], [3, '1000000a', 4], [7, 3, 2], [4, 'x', 2], [7, 'x', 2], [2, 'y', 2], [1, 'y', 2]]
+  #radicals = [[3, '100a', 2]]
+  #radicals = [[1, 252, 2]]
   print('radicals are: ', radicals)
   #print('prime radicals are: ', get_prime_radicals(radicals))
   #print('numeral radicals are: ', get_numeral_radicals(radicals))
@@ -191,6 +246,18 @@ def main():
   #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], [-1, 63, 2], [4, 7, 2], [3, '100a', 2]]
   simplified_radicals = list(map(simplify_radical, radicals))
   print('simplified radicals are: ', simplified_radicals)
+  print('all indexes: ', get_all_indexes(simplified_radicals))
+  print(get_radicals_with_index(simplified_radicals, 2))
+  print(get_radicals_with_index(simplified_radicals, 3))
+  print(get_radicals_with_index(simplified_radicals, 4))
+  radicals_same_index = list(get_radicals_with_index(simplified_radicals, 2).values())[0]
+  radicals_numerals = get_numeral_radicals(radicals_same_index)
+  radicals_literals = get_literal_radicals(radicals_same_index)
+  print(radicals_same_index)
+  print('NUMERALS ONLY', radicals_numerals)
+  print('LITERALS ONLY', radicals_literals)
+  print('radicals with like numerals: ', combine_like_radicals(radicals_numerals))
+  print('radicals with like literals: ', combine_like_radicals(radicals_literals))
 
 if __name__ == '__main__':
   main()
