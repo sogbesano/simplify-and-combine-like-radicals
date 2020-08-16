@@ -24,7 +24,13 @@ simplfied_radicals = list(map(simplify_radical, radicals))
 you can then print the list like so:
 print(simplified_radicals)
 
-I am currently working on making the program combine like radicals.
+To combine radicals with like terms, first get the radicals with like terms, to do this first determine whether you want to do it for radicals with radicands that are numerals, literals, or numeral and literal combinations. If you are working with numerals, then use the function get_numeral_radicals which takes as an argument radicals with the same index, such as [1, '75y', 2] and [4, '3y', 2], note that they both have the index 2, pass them as a list of lists for example, [[1, '75y', 2], [4, '3y', 2]]. If you're working with literal radicals then use the get_literal_radicals function which works the same way, pass it to radicals with the same index. And if you're working with radicals that have numeral and literal radicands then use the function get_numeral_literal_radicals which also takes the same argument. 
+
+Next get the like radicals by using the function get_like_radicals which takes, numeral radicals, literal radicals, or numeral and literal radicals as it's argument, i.e. what you get from using the functions in the last paragraph
+
+The second to last step is to get the prime radicands, to do this use the get_prime_radicands function which takes as an argument like radicals, obtained using the get_like_radicals function. 
+
+The last step is to combine the like radicals, this is done by using the combine_like_radicals function which takes 2 arguments, the first one is the like radicals obtained by using the get_like_radicals function and the second argument is the prime_radicands, obtained by using the get_prime_radicands function.
 
 # Installation
 Clone the repo and run python3 main.py 
