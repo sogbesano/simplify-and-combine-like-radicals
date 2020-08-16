@@ -264,9 +264,11 @@ def main():
   #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], 
   #            [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2], 
    #           [1, 200, 2]]
-  radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 3], [-1, 63, 3], [4, 7, 3], [3, '100a', 2], [1, 252, 4], [3, '1000000a', 4], [7, 3, 2], [4, 'x', 2], [7, 'x', 2], [2, 'y', 2], [1, 'y', 2]]
+  #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 3], [-1, 63, 3], [4, 7, 3], [3, '100a', 2], [1, 252, 4], [3, '1000000a', 4], [7, 3, 2], [4, 'x', 2], [7, 'x', 2], [2, 'y', 2], [1, 'y', 2]]
   #radicals = [[3, '100a', 2]]
   #radicals = [[1, 252, 2]]
+  #radicals = [[4, 7, 2], [-1, 28, 2], [-1, 63, 2]]
+  radicals = [[1, '75y', 2], [4, '3y', 2]]
   print('radicals are: ', radicals)
   #print('prime radicals are: ', get_prime_radicals(radicals))
   #print('numeral radicals are: ', get_numeral_radicals(radicals))
@@ -282,18 +284,25 @@ def main():
   radicals_same_index = list(get_radicals_with_index(simplified_radicals, 2).values())[0]
   radicals_numerals = get_numeral_radicals(radicals_same_index)
   radicals_literals = get_literal_radicals(radicals_same_index)
+  radicals_numerals_literals = get_numeral_literal_radicals(radicals_same_index)
   print(radicals_same_index)
   print('NUMERALS ONLY', radicals_numerals)
   print('LITERALS ONLY', radicals_literals)
   grouped_like_radicals_numerals = get_like_radicals(radicals_numerals)
   grouped_like_radicals_literals = get_like_radicals(radicals_literals)
+  grouped_like_radicals_numerals_literals = get_like_radicals(radicals_numerals_literals)
   print('radicals with like numerals: ', get_like_radicals(radicals_numerals))
   print('radicals with like literals: ', get_like_radicals(radicals_literals))
+  print('radicals with like numerals and literals: ', get_like_radicals(radicals_numerals_literals))
   prime_radicands_literals = get_prime_radicands(grouped_like_radicals_literals)
   prime_radicands_numerals = get_prime_radicands(grouped_like_radicals_numerals)
-  print('prime radicands are: ', get_prime_radicands(grouped_like_radicals_literals))
+  prime_radicands_numerals_literals = get_prime_radicands(grouped_like_radicals_numerals_literals)
+  print('prime numeral radicands are: ', get_prime_radicands(grouped_like_radicals_numerals))
+  print('prime literal radicands are: ', get_prime_radicands(grouped_like_radicals_literals))
+  print('prime numeral and literal radicands are: ', get_prime_radicands(grouped_like_radicals_numerals_literals))
   print('combined like literal radicals: ', combine_like_radicals(grouped_like_radicals_literals, prime_radicands_literals))
   print('combined like numeral radicals: ', combine_like_radicals(grouped_like_radicals_numerals, prime_radicands_numerals))
+  print('combined like numeral and literal radicals: ', combine_like_radicals(grouped_like_radicals_numerals_literals, prime_radicands_numerals_literals))
 
 if __name__ == '__main__':
   main()
