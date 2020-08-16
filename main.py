@@ -314,9 +314,9 @@ def main():
   #print('prime numeral radicands are: ', get_prime_radicands(grouped_like_radicals_numerals))
   #print('prime literal radicands are: ', get_prime_radicands(grouped_like_radicals_literals))
   #print('prime numeral and literal radicands are: ', get_prime_radicands(grouped_like_radicals_numerals_literals))
-  print('combined like numeral radicals: ', combine_like_radicals(grouped_like_radicals_numerals, prime_radicands_numerals) + unlike_radicals_numerals)
-  print('combined liike literal radicals: ', combine_like_radicals(grouped_like_radicals_literals, prime_radicands_literals) + unlike_radicals_literals)
-  print('combined like numeral and literal radicals: ', combine_like_radicals(grouped_like_radicals_numerals_literals, prime_radicands_numerals_literals) + unlike_radicals_numerals_literals)
+  print('simplified and combined numeral radicals: ', combine_like_radicals(grouped_like_radicals_numerals, prime_radicands_numerals) + unlike_radicals_numerals)
+  print('simplified and combined literal radicals: ', combine_like_radicals(grouped_like_radicals_literals, prime_radicands_literals) + unlike_radicals_literals)
+  print('simplified and combined combined numeral and literal radicals: ', combine_like_radicals(grouped_like_radicals_numerals_literals, prime_radicands_numerals_literals) + unlike_radicals_numerals_literals)
   
 
 if __name__ == '__main__':
