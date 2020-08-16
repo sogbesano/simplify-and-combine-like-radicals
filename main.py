@@ -199,8 +199,8 @@ def get_all_indexes(radicals):
 def get_radicals_with_index(radicals, index):
   return {index : list(filter(lambda radical: radical[2] == index, radicals))}
 
-#returns
-def combine_like_radicals(radicals_same_index):
+#returns a list of lists of all the like radicals
+def get_like_radicals(radicals_same_index):
   i = 0
   j = 1
   duplicates = []
@@ -228,7 +228,36 @@ def combine_like_radicals(radicals_same_index):
       break
 
   return duplicates
-  #return [f for i,f in radicals_with_index.items() for i2,f2 in radicals_with_index.items() if f[1] == f2[1]]
+
+#returns a list of the prime radicands
+def get_prime_radicands(like_radicals):
+  #return list(filter(lambda x, y: (x == y), like_radicals))
+  return list(set([like_radical[1] for like_radical in like_radicals]))
+
+def combine_like_radicals(grouped_like_radicals, prime_radicands):
+  radicals_same_radicand = []
+  combined_like_radicals = []
+  new_radical_factor = 0
+  new_radical = []
+  for prime_radicand in prime_radicands:
+    radicals_same_radicand = []
+    for like_radical in grouped_like_radicals:
+      if(prime_radicand == like_radical[1]):
+        #print('RADICAL FACTOR: ', like_radical[0])
+        new_radical_factor += like_radical[0]
+        #radicals_same_radicand.append(like_radical)
+    #ret.append(radicals_same_radicand)
+    new_radical = [new_radical_factor, prime_radicand, like_radical[2]]
+    new_radical_factor = 0
+    combined_like_radicals.append(new_radical)
+  
+  #new_radical_factor = 0
+  #for i in ret:
+  #  for j in i:
+  #    print(j)
+  #    print(j[0])
+
+  return combined_like_radicals
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
@@ -256,8 +285,15 @@ def main():
   print(radicals_same_index)
   print('NUMERALS ONLY', radicals_numerals)
   print('LITERALS ONLY', radicals_literals)
-  print('radicals with like numerals: ', combine_like_radicals(radicals_numerals))
-  print('radicals with like literals: ', combine_like_radicals(radicals_literals))
+  grouped_like_radicals_numerals = get_like_radicals(radicals_numerals)
+  grouped_like_radicals_literals = get_like_radicals(radicals_literals)
+  print('radicals with like numerals: ', get_like_radicals(radicals_numerals))
+  print('radicals with like literals: ', get_like_radicals(radicals_literals))
+  prime_radicands_literals = get_prime_radicands(grouped_like_radicals_literals)
+  prime_radicands_numerals = get_prime_radicands(grouped_like_radicals_numerals)
+  print('prime radicands are: ', get_prime_radicands(grouped_like_radicals_literals))
+  print('combined like literal radicals: ', combine_like_radicals(grouped_like_radicals_literals, prime_radicands_literals))
+  print('combined like numeral radicals: ', combine_like_radicals(grouped_like_radicals_numerals, prime_radicands_numerals))
 
 if __name__ == '__main__':
   main()
