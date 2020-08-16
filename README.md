@@ -11,8 +11,16 @@ the program would output:
 
 9 * sqrt(3) + 3 * sqrt(2) 
 
-the representation would look different but the result would be identical. 
-Representation of radicals is explained below.
+Program also works for radicals where the radicands are literals such as 'x' and numeral and literal combinations such as '9x', for example given these four radicals:
+
+2 * sqrt(9y) - 3 * sqrt(y) - sqrt(4x) + 7 * sqrt(x)
+
+the program would output:
+
+3 * sqrt(y) + 5 * sqrt(x)
+
+the representation will look different upon output but the result would be identical. 
+Representation of radicals in the program is explained below.
 
 # Usage
 A radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index.
