@@ -1,8 +1,18 @@
 # simplify-and-combine-like-radicals
 Python program that simplifies and combine like radicals.
+
 Program uses Prime Factorization to simplify radicals.
 
-Example of usage of program: given the three radicals sqrt(75) + 4 * sqrt(3) + sqrt(18) the program would output, 9 * sqrt(3) + 3 * sqrt(2). The representation would look different the result would be identical. Representation of radicals is explained below.
+Example of usage of program: given the three radicals: 
+
+sqrt(75) + 4 * sqrt(3) + sqrt(18) 
+
+the program would output:
+
+9 * sqrt(3) + 3 * sqrt(2) 
+
+the representation would look different but the result would be identical. 
+Representation of radicals is explained below.
 
 # Usage
 A radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index.
