@@ -1,8 +1,9 @@
 # simplify-and-combine-like-radicals
 Python program that simplifies and combine like radicals.
+
 Program uses Prime Factorization to simplify radicals.
 
-Example of usage of program, given the three radicals: 
+Example of what the program does. Given three radicals:
 
 sqrt(75) + 4 * sqrt(3) + sqrt(18) 
 
