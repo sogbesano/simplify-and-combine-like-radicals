@@ -113,7 +113,11 @@ def simplify_radical_numeral_part(radical):
       if(flattened_like_factors == p_factors):
         new_radicand = flattened_like_factors[0]
       else:  
-        new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
+        if(not flattened_like_factors in p_factors):
+          new_radicand = p_factors[0]
+        #new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y]
+        else:
+          new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
     else:
       difference_factors = []
       removed_dupes = []
@@ -174,9 +178,15 @@ def simplify_radical(radical):
     numeral_part_str = radical[1][:-1]
     numeral_part_int = int(numeral_part_str, 10)
     temp_radical = [radical[0], numeral_part_int, radical[2]]
-    simplified_temp_radical = simplify_radical_numeral_part(temp_radical)
+    simplified_temp_radical = []
+    if(is_integer(temp_radical[1])):
+      simplified_temp_radical = simplify_radical_numeral_part(temp_radical)
+    else:
+      simplified_temp_radical = temp_radical
+    if(len(simplified_temp_radical) == 1):
+      return simplified_temp_radical
     if(simplified_temp_radical[1]):
-      simplified_radicand = str(simplified_temp_radical[1]) + radical[1][-1]
+      simplified_radicand = radical[1][-1]
     else:
       simplified_radicand = radical[1][-1]
     simplified_temp_radical[1] = simplified_radicand
@@ -206,27 +216,22 @@ def get_like_radicals(radicals_same_index):
   duplicates = []
   final_dups = []
   for radical1 in radicals_same_index:
-    #print('J = ', j)
-    #print('I = ', i)
     for radical2 in radicals_same_index:
+      if(j >= len(radicals_same_index)):
+        break
       if(radicals_same_index[i][1] == radicals_same_index[j][1]):
         if(radicals_same_index[i] not in duplicates and radicals_same_index[j] not in duplicates):
-          #print('RADICALS SAME INDEX[i]', radicals_same_index[i])
           duplicates.append(radicals_same_index[i])
           duplicates.append(radicals_same_index[j])
           break
         elif(radicals_same_index[i][1] == radicals_same_index[j][1]): 
-          #print('RADICALS SAME INDEX[j]', radicals_same_index[j])
           duplicates.append(radicals_same_index[j])
           break
-      j += 1    
+        j += 1    
       if(j >= len(radicals_same_index)):
         break
-    i += 1
+    i = i + 1
     j = i + 1
-    if(j >= len(radicals_same_index)):
-      break
-
   return duplicates
 
 #returns a list of the prime radicands
@@ -276,7 +281,10 @@ def main():
   #radicals = [[1, 252, 2]]
   #radicals = [[4, 7, 2], [-1, 28, 2], [-1, 63, 2]]
   #radicals = [[1, '75y', 2], [4, '3y', 2]]
-  radicals = [[1, 75, 2], [4, 3, 2], [1, 18, 2]]
+  #radicals = [[6, 'b', 2], [-1, 'b', 2], [1, '25a', 2], [-2, 'a', 2]]
+  #radicals = [[1, 75, 2], [4, 3, 2], [1, 18, 2]]
+  #radicals = [[1, 8, 2], [-2, 8, 2], [7, 8, 2]]
+  radicals = [[2, '9y', 2], [-3, 'y', 2], [-1, '4x', 2], [7, 'x', 2]]
   print('radicals are: ', radicals)
   #print('prime radicals are: ', get_prime_radicals(radicals))
   #print('numeral radicals are: ', get_numeral_radicals(radicals))
