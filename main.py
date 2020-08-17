@@ -114,13 +114,10 @@ def simplify_radical_numeral_part(radical):
         new_radicand = flattened_like_factors[0]
       else:  
         if(set(flattened_like_factors).issubset( p_factors)):
-          print('FLATTENED LIKE FACTORS', flattened_like_factors)
-          print('PRIME FACTORS', p_factors)
           if(all(elem in flattened_like_factors for elem in p_factors)):
             new_radicand = p_factors[0]
           else:
             new_radicand = min(list(set(p_factors) - set(flattened_like_factors)))
-         # new_radicand = p_factors[0]
          # new_radicand = [y for x in flattened_like_factors for y in p_factors if x == y]
         else:
           new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
