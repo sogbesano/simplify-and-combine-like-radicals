@@ -273,10 +273,6 @@ def get_unlike_radicals(radicals, like_radicals):
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
-  #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 2], 
-  #            [-1, 63, 2], [4, 7, 2], [3, '10000a', 2], [3, '1000000a', 2], [3, '100000000a', 2], [1, 252, 2], 
-   #           [1, 200, 2]]
-  #radicals = [[4, 3, 2], [1, 75, 2], [1, 'x', 2], [1, '9x', 2], [1, 18, 2], [-1, 28, 3], [-1, 63, 3], [4, 7, 3], [3, '100a', 2], [1, 252, 4], [3, '1000000a', 4], [7, 3, 2], [4, 'x', 2], [7, 'x', 2], [2, 'y', 2], [1, 'y', 2]]
   #radicals = [[3, '100a', 2]]
   #radicals = [[1, 252, 2]]
   #radicals = [[4, 7, 2], [-1, 28, 2], [-1, 63, 2]]
