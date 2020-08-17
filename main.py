@@ -113,9 +113,15 @@ def simplify_radical_numeral_part(radical):
       if(flattened_like_factors == p_factors):
         new_radicand = flattened_like_factors[0]
       else:  
-        if(not flattened_like_factors in p_factors):
-          new_radicand = p_factors[0]
-        #new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y]
+        if(set(flattened_like_factors).issubset( p_factors)):
+          print('FLATTENED LIKE FACTORS', flattened_like_factors)
+          print('PRIME FACTORS', p_factors)
+          if(all(elem in flattened_like_factors for elem in p_factors)):
+            new_radicand = p_factors[0]
+          else:
+            new_radicand = min(list(set(p_factors) - set(flattened_like_factors)))
+         # new_radicand = p_factors[0]
+         # new_radicand = [y for x in flattened_like_factors for y in p_factors if x == y]
         else:
           new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
     else:
@@ -236,7 +242,6 @@ def get_like_radicals(radicals_same_index):
 
 #returns a list of the prime radicands
 def get_prime_radicands(like_radicals):
-  #return list(filter(lambda x, y: (x == y), like_radicals))
   return list(set([like_radical[1] for like_radical in like_radicals]))
 
 def combine_like_radicals(grouped_like_radicals, prime_radicands):
@@ -248,20 +253,10 @@ def combine_like_radicals(grouped_like_radicals, prime_radicands):
     radicals_same_radicand = []
     for like_radical in grouped_like_radicals:
       if(prime_radicand == like_radical[1]):
-        #print('RADICAL FACTOR: ', like_radical[0])
         new_radical_factor += like_radical[0]
-        #radicals_same_radicand.append(like_radical)
-    #ret.append(radicals_same_radicand)
     new_radical = [new_radical_factor, prime_radicand, like_radical[2]]
     new_radical_factor = 0
     combined_like_radicals.append(new_radical)
-  
-  #new_radical_factor = 0
-  #for i in ret:
-  #  for j in i:
-  #    print(j)
-  #    print(j[0])
-
   return combined_like_radicals
 
 def get_unlike_radicals(radicals, like_radicals):
@@ -273,8 +268,6 @@ def get_unlike_radicals(radicals, like_radicals):
 
 def main():
   #a radical is represented by a list of 3 elements, the first element is the radical factor, the second element is the radicand, and the third element is the index
-  #radicals = [[3, '100a', 2]]
-  #radicals = [[1, 252, 2]]
   #radicals = [[4, 7, 2], [-1, 28, 2], [-1, 63, 2]]
   #radicals = [[1, '75y', 2], [4, '3y', 2]]
   #radicals = [[6, 'b', 2], [-1, 'b', 2], [1, '25a', 2], [-2, 'a', 2]]
