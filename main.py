@@ -95,7 +95,6 @@ def simplify_radical_numeral_part(radical):
   else:
     p_factors = prime_factors(radical[1])
     single_duplicates = [item for item, count in collections.Counter(p_factors).items() if count > 1]
-    #all_duplicates = list(map(list, set(map(tuple, [[duplicate, prime] for duplicate in single_duplicates for prime in p_factors if duplicate == prime]))))
     all_duplicates = []
     duplicate_bunch = []
     i = 0
@@ -105,7 +104,6 @@ def simplify_radical_numeral_part(radical):
       b = len(a) - radical[2]
       c = list(remove_n_dupes(a, duplicate, b))
       all_duplicates.append(c)
-    #like_factors = list(filter(lambda x: len(x) == radical[2], all_duplicates))
     like_factors = all_duplicates
     flattened_like_factors = [item for sublist in like_factors for item  in sublist]
     new_radicand = 0
@@ -114,11 +112,9 @@ def simplify_radical_numeral_part(radical):
         new_radicand = flattened_like_factors[0]
       else:  
         if(set(flattened_like_factors).issubset( p_factors)):
-          if(all(elem in flattened_like_factors for elem in p_factors)):
+          diff_flat_p_factors = [x for x in flattened_like_factors if x not in p_factors]
+          if(not diff_flat_p_factors):
             new_radicand = p_factors[0]
-          else:
-            new_radicand = min(list(set(p_factors) - set(flattened_like_factors)))
-         # new_radicand = [y for x in flattened_like_factors for y in p_factors if x == y]
         else:
           new_radicand = [y for x in flattened_like_factors for y in p_factors if x != y][0]
     else:
